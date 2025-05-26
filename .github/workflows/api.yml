@@ -27,11 +27,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          # eval "$(ssh-agent -s)"
+           eval "$(ssh-agent -s)"
           # Use ssh-add with passphrase via here-string input:
-          #  printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_rsa
+          printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_rsa
           ssh-keyscan -H sergi3607.c35.integrator.host >> ~/.ssh/known_hosts
-
+          ssh -v sergi3607@sergi3607.c35.integrator.host
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
@@ -40,7 +40,8 @@ jobs:
           git config --global user.email "sergio.marques@puc-campinas.edu.br"
           git config --global user.name "SLMM"  
           git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
-          printf '%s\n' "$SSH_PASSPHRASE" | git push origin main
+          git push origin main
+          printf '%s\n' "$SSH_PASSPHRASE" 
        
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
