@@ -49,14 +49,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
 
-      - name: 📦 Verificar commit remoto no servidor
-        run: |
-          echo "🔍 Confirmando o commit remoto:"
-          ssh sergi3607@sergi3607.c35.integrator.host "
-            cd /home/sergi3607/applications/repositories/api102/.git &&
-            echo '📌 Último commit no repositório remoto:' &&
-            git log --oneline -n 1
-          "         
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+
