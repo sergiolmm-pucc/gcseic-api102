@@ -41,6 +41,8 @@ jobs:
           git config --global user.email "sergio.marques@puc-campinas.edu.br"
           git config --global user.name "SLMM"
 
+
+
       - name: Verificar conexão e estrutura no host remoto
         run: |
           ssh sergi3607@sergi3607.c35.integrator.host "test -d /home/sergi3607/applications/repositories/api102/.git || (echo '❌ Repositório não encontrado!' && exit 1)"
