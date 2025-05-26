@@ -27,9 +27,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
+          # eval "$(ssh-agent -s)"
           # Use ssh-add with passphrase via here-string input:
-          printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_rsa
+          #  printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_rsa
           ssh-keyscan -H sergi3607.c35.integrator.host >> ~/.ssh/known_hosts
 
         env:
