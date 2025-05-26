@@ -78,3 +78,11 @@ exports.calcularCustoCasaContainer = (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// GET /datetime
+exports.getNome = (req, res) => {
+  const now = new Date();
+  res.json({
+    nome: "SLMM",
+  });
+};

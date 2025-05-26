@@ -12,5 +12,5 @@ router.post(
   "/calcular-custo-casa-container",
   userController.calcularCustoCasaContainer
 );
-
+router.get("/nome", userController.getNome);
 module.exports = router;
