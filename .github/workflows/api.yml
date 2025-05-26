@@ -15,7 +15,40 @@ on:
           - prod
           - stage
 jobs:
-  
+  jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH key with passphrase
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          eval "$(ssh-agent -s)"
+          # Use ssh-add with passphrase via here-string input:
+          printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+
+      - name: Change origin to SSH
+        run: git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
+        
+
+      - name: Push changes
+        run: |
+          git config --global user.email "sergio.marques@puc-campinas.edu.br"
+          git config --global user.name "SLMM"
+          git add .
+          git commit -m "Your commit message" || echo "No changes to commit"
+          git push origin main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
        
   Deploy_sl2:    
     runs-on: ubuntu-latest
@@ -30,16 +63,14 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H sergi3607.c35.integrator.host >> ~/.ssh/known_hosts
 
-          
+
  # ssh -v sergi3607@sergi3607.c35.integrator.host || true
          
       - name: Debug SSH
         run: |
           ls -la ~/.ssh
           git --version
-          git config --global user.email "sergio.marques@puc-campinas.edu.br"
-          git config --global user.name "SLMM"
-          git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
+         git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
           git push -u origin main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
