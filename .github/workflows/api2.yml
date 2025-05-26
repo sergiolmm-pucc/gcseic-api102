@@ -43,20 +43,15 @@ jobs:
 
           echo "🚀 PUSH com debug SSH"
           git push -u origin main  
-         #--force
-         # GIT_SSH_COMMAND="ssh -vvv" git push -u origin main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-
-      - name: 📦 Verificar commit remoto no servidor
-        run: |
           echo "🔍 Confirmando o commit remoto:"
           ssh sergi3607@sergi3607.c35.integrator.host "
             cd /home/sergi3607/applications/repositories/api102/.git &&
             echo '📌 Último commit no repositório remoto:' &&
             git log --oneline -n 1
-          "         
+          "
+          ls -la  
+         #--force
+         # GIT_SSH_COMMAND="ssh -vvv" git push -u origin main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
