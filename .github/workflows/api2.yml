@@ -1,4 +1,4 @@
-name: Deploy slmm
+name: Deploy slmm 2
 on:
   push:
     branches: [stable, prod]
