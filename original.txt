@@ -1,0 +1,2 @@
+origin	https://github.com/sergiolmm-pucc/gcseic-api102.git (fetch)
+origin	https://github.com/sergiolmm-pucc/gcseic-api102.git (push)
