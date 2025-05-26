@@ -1,0 +1,49 @@
+name: Deploy slmm
+on:
+  push:
+    branches: [stable, prod]
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        type: choice
+        required: true
+        default: dev
+        options:
+          - dev
+          - prod
+          - stage
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Push código para servidor via SSH
+       run: |
+         # Configura chave e permissões
+         mkdir -p ~/.ssh
+         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+         chmod 600 ~/.ssh/id_rsa
+
+         # Inicia agente e carrega chave com passphrase
+         eval "$(ssh-agent -s)"
+         printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_rsa
+
+         # Adiciona host ao known_hosts
+         ssh-keyscan -H sergi3607.c35.integrator.host >> ~/.ssh/known_hosts
+    
+         # Verifica se o repositório remoto existe
+         echo "🔍 Verificando se repositório remoto existe..."
+          ssh sergi3607@sergi3607.c35.integrator.host "test -d /home/sergi3607/applications/repositories/api102/.git || (echo '❌ Repositório não encontrado!' && exit 1)"
+ 
+         # Configura Git local
+         git config --global user.email "sergio.marques@puc-campinas.edu.br"
+         git config --global user.name "SLMM"
+         git remote set-url origin sergi3607@sergi3607.c35.integrator.host:/home/sergi3607/applications/repositories/api102/.git
+
+         echo   "🚀 Realizando git push..."
+         git push origin main
+    env:
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+    
