@@ -45,6 +45,10 @@ jobs:
           git push -u origin main  
          #--force
          # GIT_SSH_COMMAND="ssh -vvv" git push -u origin main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+
       - name: 📦 Verificar commit remoto no servidor
         run: |
           echo "🔍 Confirmando o commit remoto:"
