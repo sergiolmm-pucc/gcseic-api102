@@ -39,10 +39,11 @@ jobs:
           echo "⚙️ Configurando Git"
           git config --global user.email "sergio.marques@puc-campinas.edu.br"
           git config --global user.name "SLMM"
+          git branch -m main master
           git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git || echo "origin já existe"
 
           echo "🚀 PUSH com debug SSH"
-          git push -u origin main  
+          git push -u origin master  
           echo "🔍 Confirmando o commit remoto:"
           ssh sergi3607@sergi3607.c35.integrator.host "
             cd /home/sergi3607/applications/repositories/api102/.git &&
