@@ -33,17 +33,16 @@ jobs:
       #  env:
       #    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       #    SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-
+      - name: Change Owner e email
+        run: |
+          git config --global user.email "sergio.marques@puc-campinas.edu.br"
+          git config --global user.name "SLMM"  
       - name: Change origin to SSH
         run: git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
         
 
       - name: Push changes
         run: |
-          git config --global user.email "sergio.marques@puc-campinas.edu.br"
-          git config --global user.name "SLMM"
-          git add .
-          git commit -m "Your commit message" || echo "No changes to commit"
           git push origin main
           printf '%s\n' "$SSH_PASSPHRASE"
         
