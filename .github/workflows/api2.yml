@@ -43,7 +43,8 @@ jobs:
           git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git || echo "origin já existe"
 
           echo "🚀 PUSH com debug SSH"
-          git push -u origin main --force
+          git push -u origin main  
+         #--force
          # GIT_SSH_COMMAND="ssh -vvv" git push -u origin main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
