@@ -15,7 +15,7 @@ on:
           - prod
           - stage
 jobs:
-  jobs:
+
   deploy:
     runs-on: ubuntu-latest
     steps:
