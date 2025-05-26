@@ -1,7 +1,7 @@
 {
   "name": "api102",
   "version": "1.0.1",
-  "description": "API com Express e Swagger",
+  "description": "API com Express e Swagger API 102",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
