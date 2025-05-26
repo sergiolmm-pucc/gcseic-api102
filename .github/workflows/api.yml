@@ -41,6 +41,9 @@ jobs:
           git config --global user.name "SLMM"  
           git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
           printf '%s\n' "$SSH_PASSPHRASE" | git push origin main ß 
-          
+       
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}   
         
        
