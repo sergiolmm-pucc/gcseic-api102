@@ -53,9 +53,9 @@ jobs:
 
           git branch -m main master
           git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git || echo "origin já existe"
-          git pull
+         
           echo "🚀 PUSH com debug SSH"
-          git push -u origin master  
+          git push -u origin master  --force-with-lease
           echo "🔍 Confirmando o commit remoto:"
           ssh sergi3607@sergi3607.c35.integrator.host "
             cd /home/sergi3607/applications/repositories/api102/.git &&
