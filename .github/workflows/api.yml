@@ -27,7 +27,7 @@ jobs:
       - name: Limpa diretorio de test
         run: |
          ls -la
-         rm -rf test   
+         #rm -rf test   
          ls -la
 
 
@@ -48,14 +48,14 @@ jobs:
           git config --global user.name "SLMM"
 
           ls -la
-          git add .
-          git commit -m "sem test"
+          # git add .
+          # git commit -m "sem test"
 
           git branch -m main master
           git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git || echo "origin já existe"
          
           echo "🚀 PUSH com debug SSH"
-          git push -u origin master  --force-with-lease
+          git push -u origin master  
           echo "🔍 Confirmando o commit remoto:"
           ssh sergi3607@sergi3607.c35.integrator.host "
             cd /home/sergi3607/applications/repositories/api102/.git &&
