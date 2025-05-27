@@ -28,6 +28,8 @@ jobs:
         run: |
          ls -la
          rm -rf test   
+         rm -rf .github
+         
 
       - name: Configurar SSH e executar push com debug
         run: |
