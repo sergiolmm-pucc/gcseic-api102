@@ -24,6 +24,11 @@ jobs:
         with:
          fetch-depth: 0
 
+      - name: Limpa diretorio de test
+        run: |
+         ls -la
+         rm -rf test   
+
       - name: Configurar SSH e executar push com debug
         run: |
           echo "🔐 Configurando chave SSH..."

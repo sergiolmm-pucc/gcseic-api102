@@ -15,55 +15,51 @@ on:
           - prod
           - stage
 jobs:
-
-  deploy:
+  git-push-ssh:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-    
-      - name: Setup SSH key with passphrase
+      - name: Checkout código
+        uses: actions/checkout@v4
+        with:
+         fetch-depth: 0
+
+      - name: Limpa diretorio de test
         run: |
+         ls -la
+         rm -rf test   
+
+      - name: Configurar SSH e executar push com debug
+        run: |
+          echo "🔐 Configurando chave SSH..."
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-           eval "$(ssh-agent -s)"
-          # Use ssh-add with passphrase via here-string input:
+
+          eval "$(ssh-agent -s)"
           printf '%s\n' "$SSH_PASSPHRASE" | ssh-add ~/.ssh/id_rsa
+
           ssh-keyscan -H sergi3607.c35.integrator.host >> ~/.ssh/known_hosts
-          ssh -v sergi3607@sergi3607.c35.integrator.host
+
+          echo "⚙️ Configurando Git"
+          git config --global user.email "sergio.marques@puc-campinas.edu.br"
+          git config --global user.name "SLMM"
+          git branch -m main master
+          git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git || echo "origin já existe"
+
+          echo "🚀 PUSH com debug SSH"
+          git push -u origin master  
+          echo "🔍 Confirmando o commit remoto:"
+          ssh sergi3607@sergi3607.c35.integrator.host "
+            cd /home/sergi3607/applications/repositories/api102/.git &&
+            echo '📌 Último commit no repositório remoto:' &&
+            git log --oneline -n 1
+          "
+          ls -la  
+         # GIT_SSH_COMMAND="ssh -vvv" git push -u origin master
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
 
-      - name: Configurar Git
-        run: |
-          git config --global user.email "sergio.marques@puc-campinas.edu.br"
-          git config --global user.name "SLMM"
-
-
-
-      - name: Verificar conexão e estrutura no host remoto
-        run: |
-          ssh sergi3607@sergi3607.c35.integrator.host "test -d /home/sergi3607/applications/repositories/api102/.git || (echo '❌ Repositório não encontrado!' && exit 1)"
-        continue-on-error: false
-
-      - name: Alterar URL remota para push via SSH
-        run: git remote set-url origin sergi3607@sergi3607.c35.integrator.host:/home/sergi3607/applications/repositories/api102/.git
-
-      - name: Push para servidor remoto
-        run: git push origin main
-
-          
-    #  - name: Change Owner e email
-    #    run: |
-  
- #         git remote set-url origin ssh://sergi3607@sergi3607.c35.integrator.host/home/sergi3607/applications/repositories/api102/.git
- #         git push origin main
- #         printf '%s\n' "$SSH_PASSPHRASE" 
-       
-  #      env:
-   #       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    #      SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}   
         
        
